@@ -1,9 +1,9 @@
-from construct import Const,Struct,Enum,Bytes,Byte,Array,BitStruct,BitsInteger
+from struct import *
 
-connect_cmd = Struct(
-    'connect_cmd' / Const(b"\x11\x51\x04\xB0\x05")
-)
+connect_cmd = b"\x11\x51\x04\xB0\x05"
 
+read_cmd = {'read_cmd': b"\x11" \ # read command
+            , 'command': b"\x11"}
 
 read_cmd = Struct(
     'read_cmd' / Const(b"\x11"), # read command
