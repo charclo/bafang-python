@@ -1,9 +1,7 @@
 from struct import *
+from enum import Enum
 
 connect_cmd = b"\x11\x51\x04\xB0\x05"
-
-read_cmd = {'read_cmd': b"\x11" \ # read command
-            , 'command': b"\x11"}
 
 read_cmd = Struct(
     'read_cmd' / Const(b"\x11"), # read command

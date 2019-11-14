@@ -5,6 +5,12 @@ This is a description of the reverse-engineered Bafang protocol. If not stated o
 
 Baudrate: 1200,8,N,1
 
+## Command: Connect
+## Command: Read Basic
+## Command: Read Pedal
+## Command: Read Throttle
+## Command: Set Basic
+## Command: Set Pedal
 
 ## Command: Connect
 * **Send:** 0x11 0x51 0x04 0xB0 0x05  (0x05 = (0x51 + 0x04 + 0xB0) MOD 256)
