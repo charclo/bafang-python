@@ -19,14 +19,15 @@ def actionSaveTriggered():
     print("save file")
 
 def actionSaveAsTriggered():
-    print("load file")
+    print("save file as")
 
 def prepare_gui():
     ui.pushButtonLoad.clicked.connect(on_button_clicked)
     ui.actionExit.triggered.connect(actionExitTriggered)
     ui.actionLoad.triggered.connect(actionLoadTriggered)
-    ui.actionLoad.triggered.connect(actionLoadTriggered)
-    ui.actionLoad.triggered.connect(actionLoadTriggered)
+    ui.actionSave.triggered.connect(actionSaveTriggered)
+    ui.actionSave_as.triggered.connect(actionSaveAsTriggered)
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
