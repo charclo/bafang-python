@@ -67,32 +67,12 @@ class Bafang:
         self.speedmeter_signals = pedal_data[24]
 
     def get_basic(self):
-        self.low_battery_protect = basic_data[0]
-        self.limited_current = basic_data[1]
-        self.limited_current_assist0 = basic_data[2]
-        self.limited_current_assist1 = basic_data[3]
-        self.limited_current_assist2 = basic_data[4]
-        self.limited_current_assist3 = basic_data[5]
-        self.limited_current_assist4 = basic_data[6]
-        self.limited_current_assist5 = basic_data[7]
-        self.limited_current_assist6 = basic_data[8]
-        self.limited_current_assist7 = basic_data[9]
-        self.limited_current_assist8 = basic_data[10]
-        self.limited_current_assist9 = basic_data[11]
-        self.limited_speed_assist0 = basic_data[12]
-        self.limited_speed_assist1 = basic_data[13]
-        self.limited_speed_assist2 = basic_data[14]
-        self.limited_speed_assist3 = basic_data[15]
-        self.limited_speed_assist4 = basic_data[16]
-        self.limited_speed_assist5 = basic_data[17]
-        self.limited_speed_assist6 = basic_data[18]
-        self.limited_speed_assist7 = basic_data[19]
-        self.limited_speed_assist8 = basic_data[20]
-        self.limited_speed_assist9 = basic_data[21]
-        self.wheel_diameter = basic_data[22]
-        self.speedmeter_model = basic_data[23]
-        self.speedmeter_signals = basic_data[24]
-
+        pass
+    
+    def get_info(self):
+        return [self.manufacturer, self.model, self.hw_version,
+                self.fw_version, self.voltage, self.max_current, self.checksum]
+                
     def get_info_message(self):
         return self.manufacturer + self.model + self.hw_version + \
                 self.fw_version + self.voltage + self.max_current + self.checksum

@@ -1,6 +1,7 @@
 from time import sleep
 from serial import Serial, SerialException
 from serial.tools import list_ports
+import sys
 #from protocol import connect_cmd, read_cmd, info_message, basic_message, pedal_message, throttle_message
 
 
@@ -17,7 +18,8 @@ def read_config(cm, answ_format):
 
 ports_list = list_ports.comports()
 if len(ports_list) != 0:
-    ser = Serial(ports_list[1].device, 1200, timeout=1)
+    ser = Serial(ports_list[0].device, 1200, timeout=1)
+    ser.write(b"test")
     print(ser)
 else:
     print("No Com Ports found")
