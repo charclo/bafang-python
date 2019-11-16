@@ -3,14 +3,24 @@ from collections import namedtuple
 class Bafang:
     'class to store all information from bafang controller'
 
-    def __init__(self, manufacturer, model, hw_version, fw_version, voltage, max_current, checksum):
+    """     def __init__(self, manufacturer, model, hw_version, fw_version, voltage, max_current, checksum):
         self.manufacturer = manufacturer
         self.model = model
         self.hw_version = hw_version
         self.fw_version = fw_version
         self.voltage = voltage
         self.max_current = max_current
-        self.checksum = checksum
+        self.checksum = checksum """
+
+    def __init__(self, infoBytes):
+        # b'\x02\x10HZXTSZZ6222011\x01\x14\x1b'
+        self.manufacturer = infoBytes[2:6].decode("utf-8")
+        self.model = infoBytes[6:10].decode("utf-8")
+        self.hw_version = int(infoBytes[10:12])
+        self.fw_version = int(infoBytes[12:16])
+        self.voltage = int(infoBytes[16])
+        self.max_current = int(infoBytes[17])
+        self.checksum = int(infoBytes[18])
 
     def store_basic(self, basic_data):
         self.low_battery_protect = basic_data[0]
