@@ -1289,6 +1289,9 @@
       </property>
      </widget>
      <widget class="QPushButton" name="pushButtonRead">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>420</x>
@@ -1355,7 +1358,7 @@
       <x>660</x>
       <y>330</y>
       <width>341</width>
-      <height>261</height>
+      <height>331</height>
      </rect>
     </property>
     <property name="font">
@@ -1593,6 +1596,27 @@
      </property>
      <property name="text">
       <string>N/A</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelMaxCurrent_3">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>250</y>
+       <width>151</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="locale">
+      <locale language="English" country="UnitedKingdom"/>
+     </property>
+     <property name="text">
+      <string>Nominal voltage????</string>
      </property>
     </widget>
    </widget>

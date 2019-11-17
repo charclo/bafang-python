@@ -12,15 +12,15 @@ class Bafang:
         self.max_current = max_current
         self.checksum = checksum """
 
-    def __init__(self, infoBytes):
+    def __init__(self, info_bytes):
         # b'\x02\x10HZXTSZZ6222011\x01\x14\x1b'
-        self.manufacturer = infoBytes[2:6].decode("utf-8")
-        self.model = infoBytes[6:10].decode("utf-8")
-        self.hw_version = int(infoBytes[10:12])
-        self.fw_version = int(infoBytes[12:16])
-        self.voltage = int(infoBytes[16])
-        self.max_current = int(infoBytes[17])
-        self.checksum = int(infoBytes[18])
+        self.manufacturer = info_bytes[2:6].decode("utf-8")
+        self.model = info_bytes[6:10].decode("utf-8")
+        self.hw_version = int(info_bytes[10:12])
+        self.fw_version = int(info_bytes[12:16])
+        self.voltage = int(info_bytes[16])
+        self.max_current = int(info_bytes[17])
+        self.checksum = int(info_bytes[18])
 
     def store_basic(self, basic_data):
         self.low_battery_protect = basic_data[0]
@@ -93,11 +93,11 @@ class Bafang:
             temp += b
         return temp
 
-if __name__ == "__main__":
-    baf = Bafang( b'HZXT', b'SZZ6', b'22', b'2011', b'1', b'20', b'27')
-    fetched_data = (b'HZXT', b'0F', b'22', b'2011', b'1', b'20', b'27', b'HZXT', b'SZZ6', b'22',
-                     b'2011', b'1', b'20', b'HZXT', b'SZZ6', b'22', b'2011', b'1', b'20', b'HZXT', b'SZZ6', b'22', b'2011', b'1', b'20')
-    baf.store_basic(fetched_data)
-    print(baf.limited_current)
-    print(baf.get_pedal(fetched_data))
-    print(baf.get_info_message())
+# if __name__ == "__main__":
+#     baf = Bafang( b'HZXT', b'SZZ6', b'22', b'2011', b'1', b'20', b'27')
+#     fetched_data = (b'HZXT', b'0F', b'22', b'2011', b'1', b'20', b'27', b'HZXT', b'SZZ6', b'22',
+#                      b'2011', b'1', b'20', b'HZXT', b'SZZ6', b'22', b'2011', b'1', b'20', b'HZXT', b'SZZ6', b'22', b'2011', b'1', b'20')
+#     baf.store_basic(fetched_data)
+#     print(baf.limited_current)
+#     print(baf.get_pedal(fetched_data))
+#     print(baf.get_info_message())
