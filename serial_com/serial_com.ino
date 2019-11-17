@@ -17,29 +17,33 @@ void setup() {
 }
 
 void loop() {
-    if(!info_received){
-      if(Serial.available() >= 5){
-          bytes_read = Serial.readBytes(test, 5);
-          Serial.write(infoMessage, 19);
+    // if(!info_received){
+    //   if(Serial.available() >= 5){
+    //       bytes_read = Serial.readBytes(test, 5);
+    //       Serial.write(infoMessage, 19);
           
-          lcd.clear();
-          lcd.print(bytes_read);
-          lcd.print(" bytes:");
-          lcd.setCursor(0, 1);
-          for (int i=0; i < bytes_read; i++){
-            lcd.print(test[i], HEX);
-            lcd.print(" ");
-          }
-          lcd.setCursor(0, 2);
-          lcd.print(" follow-up:");
-          lcd.setCursor(0, 3);
-        info_received = true;
-        }
-    }
-    else{
+    //       lcd.clear();
+    //       lcd.print(bytes_read);
+    //       lcd.print(" bytes:");
+    //       lcd.setCursor(0, 1);
+    //       for (int i=0; i < bytes_read; i++){
+    //         lcd.print(test[i], HEX);
+    //         lcd.print(" ");
+    //       }
+    //       lcd.setCursor(0, 2);
+    //       lcd.print(" follow-up:");
+    //       lcd.setCursor(0, 3);
+    //     info_received = true;
+    //     }
+    // }
+    // else{
           received_char = Serial.read();
+          switch(received_char)
+          {
+            case 
+          }
           lcd.print(received_char, HEX);
           lcd.print(" ");
-    }
+    //}
 
 }
