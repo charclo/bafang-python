@@ -25,6 +25,14 @@ class Protocol():
 
     def get_basic(self):
         self.serial_port.write(self.basic_read_cmd)
-        return self.serial_port.read(19)
+        return self.serial_port.read(27)
+    
+    def get_pedal(self):
+        self.serial_port.write(self.pedal_read_cmd)
+        return self.serial_port.read(14)
+
+    def get_throttle(self):
+        self.serial_port.write(self.throttle_read_cmd)
+        return True
 
 

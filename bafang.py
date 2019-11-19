@@ -12,80 +12,83 @@ class Bafang:
         self.max_current = max_current
         self.checksum = checksum """
 
-    def __init__(self, info_bytes):
-        # b'\x02\x10HZXTSZZ6222011\x01\x14\x1b'
+    def __init__(self,):
         self.manufacturer = info_bytes[2:6].decode("utf-8")
         self.model = info_bytes[6:10].decode("utf-8")
-        self.hw_version = int(info_bytes[10:12])
-        self.fw_version = int(info_bytes[12:16])
-        self.voltage = int(info_bytes[16])
-        self.max_current = int(info_bytes[17])
-        self.checksum = int(info_bytes[18])
+        self.hw_version = "V" + '.'.join(str(int(info_bytes[10:12])))
+        self.fw_version = "V" + '.'.join(str(int(info_bytes[12:16])))
+        self.voltage = 31
+        self.max_current = 15
+        self.low_battery_protect = 31
+        self.limited_current = 15
+        self.limited_current_assist0 = 0
+        self.limited_current_assist1 = 10
+        self.limited_current_assist2 = 20
+        self.limited_current_assist3 = 30
+        self.limited_current_assist4 = 40
+        self.limited_current_assist5 = 50
+        self.limited_current_assist6 = 60
+        self.limited_current_assist7 = 70
+        self.limited_current_assist8 = 80
+        self.limited_current_assist9 = 90
+        self.limited_speed_assist0 = 1
+        self.limited_speed_assist1 = 1
+        self.limited_speed_assist2 = 1
+        self.limited_speed_assist3 = 1
+        self.limited_speed_assist4 = 1
+        self.limited_speed_assist5 = 1
+        self.limited_speed_assist6 = 1
+        self.limited_speed_assist7 = 1
+        self.limited_speed_assist8 = 1
+        self.limited_speed_assist9 = 1
+        self.wheel_diameter = 1
+        self.speedmeter_signals = 1
+        self.speedmeter_model = 1
 
-    def store_basic(self, basic_data):
-        self.low_battery_protect = basic_data[0]
-        self.limited_current = basic_data[1]
-        self.limited_current_assist0 = basic_data[2]
-        self.limited_current_assist1 = basic_data[3]
-        self.limited_current_assist2 = basic_data[4]
-        self.limited_current_assist3 = basic_data[5]
-        self.limited_current_assist4 = basic_data[6]
-        self.limited_current_assist5 = basic_data[7]
-        self.limited_current_assist6 = basic_data[8]
-        self.limited_current_assist7 = basic_data[9]
-        self.limited_current_assist8 = basic_data[10]
-        self.limited_current_assist9 = basic_data[11]
-        self.limited_speed_assist0 = basic_data[12]
-        self.limited_speed_assist1 = basic_data[13]
-        self.limited_speed_assist2 = basic_data[14]
-        self.limited_speed_assist3 = basic_data[15]
-        self.limited_speed_assist4 = basic_data[16]
-        self.limited_speed_assist5 = basic_data[17]
-        self.limited_speed_assist6 = basic_data[18]
-        self.limited_speed_assist7 = basic_data[19]
-        self.limited_speed_assist8 = basic_data[20]
-        self.limited_speed_assist9 = basic_data[21]
-        self.wheel_diameter = basic_data[22]
-        self.speedmeter_model = basic_data[23]
-        self.speedmeter_signals = basic_data[24]
+    def set_info(self, info_bytes: bytes)
+
+    def store_basic(self, basic_bytes):
+        self.low_battery_protect = basic_bytes[2]
+        self.limited_current = basic_bytes[3]
+        self.limited_current_assist0 = basic_bytes[4]
+        self.limited_current_assist1 = basic_bytes[5]
+        self.limited_current_assist2 = basic_bytes[6]
+        self.limited_current_assist3 = basic_bytes[7]
+        self.limited_current_assist4 = basic_bytes[8]
+        self.limited_current_assist5 = basic_bytes[9]
+        self.limited_current_assist6 = basic_bytes[10]
+        self.limited_current_assist7 = basic_bytes[11]
+        self.limited_current_assist8 = basic_bytes[12]
+        self.limited_current_assist9 = basic_bytes[13]
+        self.limited_speed_assist0 = basic_bytes[14]
+        self.limited_speed_assist1 = basic_bytes[15]
+        self.limited_speed_assist2 = basic_bytes[16]
+        self.limited_speed_assist3 = basic_bytes[17]
+        self.limited_speed_assist4 = basic_bytes[18]
+        self.limited_speed_assist5 = basic_bytes[19]
+        self.limited_speed_assist6 = basic_bytes[20]
+        self.limited_speed_assist7 = basic_bytes[21]
+        self.limited_speed_assist8 = basic_bytes[22]
+        self.limited_speed_assist9 = basic_bytes[23]
+        self.wheel_diameter = basic_bytes[24]
+        self.speedmeter_signals = basic_bytes[25]
+        self.speedmeter_model = basic_bytes[25]
+
+
 
     def store_pedal(self, pedal_data):
-        self.low_battery_protect = pedal_data[0]
-        self.limited_current = pedal_data[1]
-        self.limited_current_assist0 = pedal_data[2]
-        self.limited_current_assist1 = pedal_data[3]
-        self.limited_current_assist2 = pedal_data[4]
-        self.limited_current_assist3 = pedal_data[5]
-        self.limited_current_assist4 = pedal_data[6]
-        self.limited_current_assist5 = pedal_data[7]
-        self.limited_current_assist6 = pedal_data[8]
-        self.limited_current_assist7 = pedal_data[9]
-        self.limited_current_assist8 = pedal_data[10]
-        self.limited_current_assist9 = pedal_data[11]
-        self.limited_speed_assist0 = pedal_data[12]
-        self.limited_speed_assist1 = pedal_data[13]
-        self.limited_speed_assist2 = pedal_data[14]
-        self.limited_speed_assist3 = pedal_data[15]
-        self.limited_speed_assist4 = pedal_data[16]
-        self.limited_speed_assist5 = pedal_data[17]
-        self.limited_speed_assist6 = pedal_data[18]
-        self.limited_speed_assist7 = pedal_data[19]
-        self.limited_speed_assist8 = pedal_data[20]
-        self.limited_speed_assist9 = pedal_data[21]
-        self.wheel_diameter = pedal_data[22]
-        self.speedmeter_model = pedal_data[23]
-        self.speedmeter_signals = pedal_data[24]
+        print(pedal_data)
 
     def get_basic(self):
         pass
     
     def get_info(self):
         return [self.manufacturer, self.model, self.hw_version,
-                self.fw_version, self.voltage, self.max_current, self.checksum]
+                self.fw_version, self.voltage, self.max_current]
                 
     def get_info_message(self):
         return self.manufacturer + self.model + self.hw_version + \
-                self.fw_version + self.voltage + self.max_current + self.checksum
+                self.fw_version + self.voltage + self.max_current
 
     def get_pedal(self, basic_data):
         temp = b''

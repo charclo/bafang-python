@@ -4,6 +4,7 @@ from generated_gui import Ui_MainWindow
 import sys
 from protocol import Protocol
 from bafang import Bafang
+from json_file import JsonWriter
 
 class BafanConfig(Ui_MainWindow, QMainWindow):
 
@@ -14,25 +15,29 @@ class BafanConfig(Ui_MainWindow, QMainWindow):
         self.get_ports()
         self.connect_signals()
         self.connected = False
-    
+
     def connect_signals(self):
-        self.pushButtonLoad.clicked.connect(self.on_pushButtonLoad_clicked)
+        self.pushButtonReadAll.clicked.connect(self.pushButtonReadAll_clicked)
         self.actionExit.triggered.connect(self.actionExitTriggered)
         self.actionLoad.triggered.connect(self.actionLoadTriggered)
         self.actionSave.triggered.connect(self.actionSaveTriggered)
         self.actionSave_as.triggered.connect(self.actionSaveAsTriggered)
-        self.pushButtonScan.clicked.connect(self.on_pushButtonScan_clicked)
-        self.pushButtonRead.clicked.connect(self.on_pushButtonRead_clicked)
-        self.pushButtonConnect.clicked.connect(self.on_pushButtonConnect_clicked)
-        self.pushButtonRead.clicked.connect(self.on_pushButtonRead_clicked)
+        self.pushButtonScan.clicked.connect(self.pushButtonScan_clicked)
+        self.pushButtonRead.clicked.connect(self.pushButtonRead_clicked)
+        self.pushButtonConnect.clicked.connect(self.pushButtonConnect_clicked)
         self.actionAbout.triggered.connect(self.actionAboutTriggered)
     
-    def on_pushButtonLoad_clicked(self):
-        self.info_bytes = self.protocol.get_info()
-        self.bafang = Bafang(self.info_bytes)
-        self.updateInfo()
+    def pushButtonReadAll_clicked(self):
+        basic_bytes = self.protocol.get_basic()
+        self.bafang.store_basic(basic_bytes)
+        pedal_bytes = self.protocol.get_pedal()
+        self.bafang.store_pedal(pedal_bytes)
+        self.updateBasic()
+        self.protocol.get_throttle()
 
-    def on_pushButtonScan_clicked(self):
+    # @pyqtSlot() this doesn't work for me, function gets called tree times
+    # when it is called on_push...
+    def pushButtonScan_clicked(self):
         self.get_ports()
 
     def get_ports(self):
@@ -46,27 +51,54 @@ class BafanConfig(Ui_MainWindow, QMainWindow):
             print("No Com Ports found")
 
 
-    def on_pushButtonConnect_clicked(self):
+    def pushButtonConnect_clicked(self):
         if not (self.connected):
             self.protocol.connect(self.comboBoxPorts.currentText())
             self.connected = True
-            self.pushButtonLoad.setEnabled(True)
+            self.pushButtonReadAll.setEnabled(True)
             self.pushButtonRead.setEnabled(True)
             self.statusbar.showMessage("connected to: " + self.comboBoxPorts.currentText())
-            self.on_pushButtonLoad_clicked()
+            info_bytes = self.protocol.get_info()
+            self.bafang = Bafang(info_bytes)
+            self.updateInfo()
 
-    def on_pushButtonRead_clicked(self):
-        self.info_bytes = self.protocol.get_info()
-        self.bafang = Bafang(self.info_bytes)
-        self.updateInfo()
+    def pushButtonRead_clicked(self):
+        basic_bytes = self.protocol.get_basic()
+        self.bafang.store_basic(basic_bytes)
+        self.updateBasic()
             
-
     def updateInfo(self):
         self.labelManufacturer_2.setText(self.bafang.manufacturer)
         self.labelModel_2.setText(self.bafang.model)
         self.labelHardwVers_2.setText(str(self.bafang.hw_version))
         self.labelFirmVers_2.setText(str(self.bafang.fw_version))
         self.labelMaxCurrent_2.setText(str(self.bafang.max_current))
+
+    def updateBasic(self):
+        self.spinBoxLowBatteryVoltage.setValue(self.bafang.low_battery_protect)
+        self.spinBoxCurrentLimit.setValue(self.bafang.limited_current)
+        self.spinBoxAssist0.setValue(self.bafang.limited_current_assist0)
+        self.spinBoxAssist1.setValue(self.bafang.limited_current_assist1)
+        self.spinBoxAssist2.setValue(self.bafang.limited_current_assist2)
+        self.spinBoxAssist3.setValue(self.bafang.limited_current_assist3)
+        self.spinBoxAssist4.setValue(self.bafang.limited_current_assist4)
+        self.spinBoxAssist5.setValue(self.bafang.limited_current_assist5)
+        self.spinBoxAssist6.setValue(self.bafang.limited_current_assist6)
+        self.spinBoxAssist7.setValue(self.bafang.limited_current_assist7)
+        self.spinBoxAssist8.setValue(self.bafang.limited_current_assist8)
+        self.spinBoxAssist9.setValue(self.bafang.limited_current_assist9)
+        self.spinBoxSpeedlimit0.setValue(self.bafang.limited_speed_assist0)
+        self.spinBoxSpeedlimit1.setValue(self.bafang.limited_speed_assist1)
+        self.spinBoxSpeedlimit2.setValue(self.bafang.limited_speed_assist2)
+        self.spinBoxSpeedlimit3.setValue(self.bafang.limited_speed_assist3)
+        self.spinBoxSpeedlimit4.setValue(self.bafang.limited_speed_assist4)
+        self.spinBoxSpeedlimit5.setValue(self.bafang.limited_speed_assist5)
+        self.spinBoxSpeedlimit6.setValue(self.bafang.limited_speed_assist6)
+        self.spinBoxSpeedlimit7.setValue(self.bafang.limited_speed_assist7)
+        self.spinBoxSpeedlimit8.setValue(self.bafang.limited_speed_assist8)
+        self.spinBoxSpeedlimit9.setValue(self.bafang.limited_speed_assist9)
+        self.spinBoxSpeedMeterSignals.setValue(self.bafang.speedmeter_signals)
+
 
     def actionExitTriggered(self):
         app.quit()
@@ -75,7 +107,8 @@ class BafanConfig(Ui_MainWindow, QMainWindow):
         print("load file")
 
     def actionSaveTriggered(self):
-        print("save file")
+        self.json_writer = JsonWriter(self.bafang)
+        self.json_writer.write_json()
 
     def actionSaveAsTriggered(self):
         print("save file as")
