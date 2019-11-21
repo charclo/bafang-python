@@ -282,7 +282,7 @@
        <locale language="English" country="UnitedKingdom"/>
       </property>
       <property name="value">
-       <number>20</number>
+       <number>15</number>
       </property>
      </widget>
      <widget class="QSpinBox" name="spinBoxAssist0">
@@ -1725,7 +1725,6 @@
      <string>File</string>
     </property>
     <addaction name="actionLoad"/>
-    <addaction name="actionSave"/>
     <addaction name="actionSave_as"/>
     <addaction name="actionExit"/>
    </widget>
@@ -1733,7 +1732,7 @@
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionHelp_file"/>
+    <addaction name="actionHelp"/>
     <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuFile"/>
@@ -1757,15 +1756,27 @@
    <property name="text">
     <string>Save as</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
   </action>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
    </property>
   </action>
-  <action name="actionHelp_file">
+  <action name="actionHelp">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
    <property name="text">
-    <string>Help file</string>
+    <string>Help</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
    </property>
   </action>
   <action name="actionAbout">
