@@ -1,32 +1,4 @@
 
-from enum import Enum
-
-class Voltage(Enum):
-    voltages = {
-    '24V',
-    '36V',
-    '48V',
-    '60V',
-    'Other'
-    }
-
-    twentyfour = 0x00
-    thirtysix = 0x01
-    fortyeight = 0x02
-    sixty = 0x03
-    other = 0x04
-
-    @classmethod
-    def from_name(cls, name):
-        for station, station_name in STATIONS.items():
-            if station_name == name:
-                return station
-        raise ValueError('{} is not a valid station name'.format(name))
-
-    def to_name(self):
-        return voltages[self.value]
-    
-
 class Bafang:
     """
     class to store all information from bafang controller
@@ -38,7 +10,8 @@ class Bafang:
         self.model = "N/A"
         self.hw_version = "N/A"
         self.fw_version = "N/A"
-        self.voltage = "N/A"
+        self.voltagebytes = 0
+        self.voltagestring = "N/A"
         self.max_current = "N/A"
         # TODO : make use of TODOS
 
@@ -77,8 +50,9 @@ class Bafang:
         self.model = info_bytes[6:10].decode("utf-8")
         self.hw_version = "V" + '.'.join(str(int(info_bytes[10:12])))
         self.fw_version = "V" + '.'.join(str(int(info_bytes[12:16])))
-        self.voltage = Voltage.info_bytes[16]))
-        self.max_current = 15
+        self.voltagebytes = info_bytes[16]
+        self.voltagestring = voltages[self.voltagebytes]
+        self.max_current = info_bytes[17]
 
     def set_basic(self, basic_bytes: bytes):
         """set the basic parameters of bafang"""
@@ -116,3 +90,44 @@ class Bafang:
     def set_pedal(self, pedal_data: bytes):
         """set the pedal parameters of bafang"""
         print(pedal_data)
+
+voltages = {
+    0x00: '24V',
+    0x01: '36V',
+    0x02: '48V',
+    0x03: '60V',
+    0x04: 'Other'
+    }
+
+wheel_sizes = {
+    0x1F: '16"',
+    0x20: '16"',
+    0x21: '17"',
+    0x22: '17"',
+    0x23: '18"',
+    0x24: '18"',
+    0x25: '19"',
+    0x26: '19"',
+    0x27: '20"',
+    0x28: '20"',
+    0x29: '21"',
+    0x2A: '21"',
+    0x2B: '22"',
+    0x2C: '22"',
+    0x2D: '23"',
+    0x2E: '23"',
+    0x2F: '24"',
+    0x30: '24"',
+    0x31: '25"',
+    0x32: '25"',
+    0x33: '26"',
+    0x34: '26"',
+    0x35: '27"',
+    0x36: '27"',
+    0x37: '700C',
+    0x38: '28"',
+    0x39: '29"',
+    0x3A: '29"',
+    0x3B: '30"',
+    0x3C: '30"',
+}

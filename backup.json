@@ -4,7 +4,8 @@
         "model": "N/A",
         "hw_version": "N/A",
         "fw_version": "N/A",
-        "voltage": "N/A",
+        "voltagebytes": 0,
+        "voltagestring": "N/A",
         "max_current": "N/A"
     },
     "basic": {

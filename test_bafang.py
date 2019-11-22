@@ -2,7 +2,6 @@ from serial import Serial
 from protocol import Protocol
 import unittest
 from bafang import Bafang
-from bafang import Voltage
 
 
 class BafangTest(unittest.TestCase):
@@ -18,13 +17,15 @@ class BafangTest(unittest.TestCase):
     #     self.assertEqual(pedal, b"S\x0b\x03\xff\xffd\x06\x14\n\x19\x08\x14\x14'")
 
     def test_bafang_initiation(self):
-        baf = Bafang(b'\x51\x10HZXTSZZ6222011\x01\x14\x1b')
+        baf = Bafang()
+        baf.set_info(b'\x51\x10HZXTSZZ6222011\x01\x14\x1b')
         self.assertEqual(baf.manufacturer, 'HZXT')
         self.assertEqual(baf.model, 'SZZ6')
         self.assertEqual(baf.hw_version, 'V2.2')
         self.assertEqual(baf.fw_version, 'V2.0.1.1') # 'V2.0.1.1')
-        self.assertEqual(baf.voltage, Voltage.thirtysix)
-        self.assertEqual(baf.max_current, '20A')
+        self.assertEqual(baf.voltagebytes, 1)
+        self.assertEqual(baf.voltagestring, "36V")
+        self.assertEqual(baf.max_current, 20)
         #self.assertEqual(baf.checksum, 27)
 
 

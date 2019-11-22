@@ -10,7 +10,8 @@ def write_json(baf, filename = "backup.json"):
                         "model": baf.model,
                         "hw_version": baf.hw_version,
                         "fw_version": baf.fw_version,
-                        "voltage": baf.voltage,
+                        "voltagebytes": baf.voltagebytes,
+                        "voltagestring": baf.voltagestring,
                         "max_current": baf.max_current
                     },
                     'basic': {
