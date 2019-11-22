@@ -1,0 +1,36 @@
+{
+    "info": {
+        "manufacturer": "N/A",
+        "model": "N/A",
+        "hw_version": "N/A",
+        "fw_version": "N/A",
+        "voltage": "N/A",
+        "max_current": "N/A"
+    },
+    "basic": {
+        "low_battery_protect": 30,
+        "limited_current": 15,
+        "limited_current_assist0": 10,
+        "limited_current_assist1": 20,
+        "limited_current_assist2": 30,
+        "limited_current_assist3": 40,
+        "limited_current_assist4": 50,
+        "limited_current_assist5": 60,
+        "limited_current_assist6": 70,
+        "limited_current_assist7": 80,
+        "limited_current_assist8": 90,
+        "limited_current_assist9": 100,
+        "limited_speed_assist0": 10,
+        "limited_speed_assist1": 20,
+        "limited_speed_assist2": 30,
+        "limited_speed_assist3": 40,
+        "limited_speed_assist4": 50,
+        "limited_speed_assist5": 60,
+        "limited_speed_assist6": 70,
+        "limited_speed_assist7": 80,
+        "limited_speed_assist89": 100,
+        "wheel_diameter": 1,
+        "speedmeter_signals": 1,
+        "speedmeter_model": 1
+    }
+}

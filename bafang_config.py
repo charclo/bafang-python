@@ -1,5 +1,5 @@
-from PyQt5 import QtWidgets, QtCore, QtGui, uic
-from PyQt5.QtWidgets import QMainWindow, QMessageBox, QFileDialog
+from PySide2 import QtWidgets, QtCore, QtGui
+from PySide2.QtWidgets import QMainWindow, QMessageBox, QFileDialog
 from generated_gui import Ui_MainWindow
 import sys
 from protocol import Protocol
