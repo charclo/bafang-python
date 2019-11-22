@@ -21,23 +21,25 @@ class BafanConfig(Ui_MainWindow, QMainWindow):
         self.started = True
 
     def connect_signals(self):
-        self.pushButtonReadAll.clicked.connect(self.pushButtonReadAll_clicked)
         self.actionExit.triggered.connect(self.actionExitTriggered)
         self.actionLoad.triggered.connect(self.actionLoadTriggered)
         self.actionSave_as.triggered.connect(self.actionSaveAsTriggered)
+        self.actionAbout.triggered.connect(self.actionAboutTriggered)
+
         self.pushButtonScan.clicked.connect(self.pushButtonScan_clicked)
         self.pushButtonRead.clicked.connect(self.pushButtonRead_clicked)
         self.pushButtonConnect.clicked.connect(self.pushButtonConnect_clicked)
-        self.actionAbout.triggered.connect(self.actionAboutTriggered)
         self.actionHelp.triggered.connect(self.actionHelpTriggered)
+        self.pushButtonReadAll.clicked.connect(self.pushButtonReadAll_clicked)
+        self.pushButtonDisconnect.clicked.connect(self.pushButtonDisconnect_clicked)
     
     def pushButtonReadAll_clicked(self):
-        basic_bytes = self.protocol.get_basic()
+        basic_bytes = self.protocol.readbasic()
         self.bafang.set_basic(basic_bytes)
-        pedal_bytes = self.protocol.get_pedal()
+        pedal_bytes = self.protocol.readpedal()
         self.bafang.set_pedal(pedal_bytes)
         self.update_basic()
-        self.protocol.get_throttle()
+        self.protocol.readthrottle()
 
     # @pyqtSlot() this doesn't work for me, function gets called tree times
     # when it is called on_push...
@@ -63,13 +65,23 @@ class BafanConfig(Ui_MainWindow, QMainWindow):
             self.connected = True
             self.pushButtonReadAll.setEnabled(True)
             self.pushButtonRead.setEnabled(True)
+            self.pushButtonDisconnect.setEnabled(True)
+            self.pushButtonConnect.setEnabled(False)
             self.statusbar.showMessage("connected to: " + self.comboBoxPorts.currentText())
-            info_bytes = self.protocol.get_info()
+            info_bytes = self.protocol.readinfo()
             self.bafang.set_info(info_bytes)
             self.update_info()
 
+    def pushButtonDisconnect_clicked(self):
+        self.protocol.disconnect()
+        self.pushButtonReadAll.setEnabled(False)
+        self.pushButtonRead.setEnabled(False)
+        self.pushButtonDisconnect.setEnabled(False)
+        self.pushButtonConnect.setEnabled(True)
+        self.connected = False
+
     def pushButtonRead_clicked(self):
-        basic_bytes = self.protocol.get_basic()
+        basic_bytes = self.protocol.readbasic()
         self.bafang.set_basic(basic_bytes)
         self.update_basic()
             

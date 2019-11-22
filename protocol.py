@@ -15,23 +15,30 @@ class Protocol():
         # Wait 2 seconds until Arduino is rebooted after serial connect
         sleep(2) # not necessary if a 10µF C is connected between RESET and GND
 
+    def disconnect(self):
+        self.serial_port.close()
+
     def get_ports(self):
         return list_ports.comports()
 
 
-    def get_info(self):
+    def readinfo(self):
         self.serial_port.write(self.connect_cmd)
         return self.serial_port.read(19)
 
-    def get_basic(self):
+    def readbasic(self):
         self.serial_port.write(self.basic_read_cmd)
         return self.serial_port.read(27)
+
+    def writebasic(self, baf):
+        basic_write_cmd = b'\x16\x52\x24'
+        
     
-    def get_pedal(self):
+    def readpedal(self):
         self.serial_port.write(self.pedal_read_cmd)
         return self.serial_port.read(14)
 
-    def get_throttle(self):
+    def readthrottle(self):
         self.serial_port.write(self.throttle_read_cmd)
         return True
 

@@ -11,6 +11,7 @@ int bytes_read;
 byte test[80];
 bool info_received = false;
 unsigned char received_char;
+unsigned char last_char;
 
 void setup() {
     Serial.begin(1200);
@@ -34,12 +35,22 @@ void loop() {
         case 0x52:
             lcd.print(received_char, HEX);
             lcd.print(" ");
-            Serial.write(basicMessage, 27);
+            if (last_char == 0x11)
+            {
+                Serial.write(basicMessage, 27);
+            }
             break;
         case 0x53:
             lcd.print(received_char, HEX);
             lcd.print(" ");
-            Serial.write(pedalMessage, 14);
+            if (last_char == 0x11)
+            {
+                Serial.write(pedalMessage, 14);
+            }
+            // else
+            // {
+            //     /* code */
+            // }
             break;
         case 0x04:
             lcd.print(received_char, HEX);
@@ -52,16 +63,18 @@ void loop() {
         case 0x05:
             lcd.print(received_char, HEX);
             lcd.print(" ");
-            Serial.write(infoMessage, 19);
-            lcd.clear();
+            if (last_char == 0xB0)
+            {
+                Serial.write(infoMessage, 19);
+                lcd.clear();
+            }
             break;
-        // case 0xff:
-        //     break;
         default:
             lcd.print(received_char, HEX);
-            lcd.print("f ");
+            lcd.print(" ");
             break;  
         }
+        last_char = received_char;
     }
           
 
