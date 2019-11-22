@@ -1,3 +1,32 @@
+
+from enum import Enum
+
+class Voltage(Enum):
+    voltages = {
+    '24V',
+    '36V',
+    '48V',
+    '60V',
+    'Other'
+    }
+
+    twentyfour = 0x00
+    thirtysix = 0x01
+    fortyeight = 0x02
+    sixty = 0x03
+    other = 0x04
+
+    @classmethod
+    def from_name(cls, name):
+        for station, station_name in STATIONS.items():
+            if station_name == name:
+                return station
+        raise ValueError('{} is not a valid station name'.format(name))
+
+    def to_name(self):
+        return voltages[self.value]
+    
+
 class Bafang:
     """
     class to store all information from bafang controller
@@ -48,7 +77,7 @@ class Bafang:
         self.model = info_bytes[6:10].decode("utf-8")
         self.hw_version = "V" + '.'.join(str(int(info_bytes[10:12])))
         self.fw_version = "V" + '.'.join(str(int(info_bytes[12:16])))
-        self.voltage = 31
+        self.voltage = Voltage.info_bytes[16]))
         self.max_current = 15
 
     def set_basic(self, basic_bytes: bytes):
