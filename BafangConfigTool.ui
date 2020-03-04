@@ -163,7 +163,7 @@
         <normaloff>icons/burn.png</normaloff>icons/burn.png</iconset>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -896,7 +896,7 @@
         </widget>
        </item>
        <item row="13" column="1">
-        <widget class="QComboBox" name="comboBoxPorts_3">
+        <widget class="QComboBox" name="comboBoxWheelDiameter">
          <property name="font">
           <font>
            <pointsize>9</pointsize>
@@ -1026,7 +1026,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -1161,7 +1161,7 @@
       <string>Manufacturer:</string>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1442,7 +1442,7 @@
      <x>0</x>
      <y>0</y>
      <width>972</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

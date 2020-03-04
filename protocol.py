@@ -1,6 +1,9 @@
 from serial import Serial
 from time import sleep
 from serial.tools import list_ports
+import logging
+
+# logger = logging.getLogger(__name__)
 
 class Protocol():
     def __init__(self):
@@ -13,7 +16,7 @@ class Protocol():
     def connect(self, serial_port):
         self.serial_port = Serial(serial_port, 1200, timeout=1)
         # Wait 2 seconds until Arduino is rebooted after serial connect
-        sleep(2) # not necessary if a 10µF C is connected between RESET and GND
+        # sleep(2) # not necessary if a 10µF C is connected between RESET and GND for arduino
 
     def disconnect(self):
         self.serial_port.close()

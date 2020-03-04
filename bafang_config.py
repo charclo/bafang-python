@@ -5,6 +5,13 @@ import sys
 from protocol import Protocol
 from bafang import Bafang
 import json_file
+import logging
+
+# create logger
+LOG_FORMAT = "%(name)s %(levelname)s %(asctime)s - %(message)s"
+logging.basicConfig(level = logging.DEBUG,
+                    format = LOG_FORMAT) # filename = "protocol.log",
+logger = logging.getLogger(__name__)
 
 class BafanConfig(Ui_MainWindow, QMainWindow):
 
@@ -39,7 +46,7 @@ class BafanConfig(Ui_MainWindow, QMainWindow):
         pedal_bytes = self.protocol.readpedal()
         self.bafang.set_pedal(pedal_bytes)
         self.update_basic()
-        self.protocol.readthrottle()
+        # self.protocol.readthrottle()
 
     # @pyqtSlot() this doesn't work for me, function gets called tree times
     # when it is called on_push...
@@ -51,7 +58,8 @@ class BafanConfig(Ui_MainWindow, QMainWindow):
         ports_list = self.protocol.get_ports()
         if len(ports_list) != 0:
             for p in ports_list:
-                self.comboBoxPorts.addItem(p[0])
+                if (p[0].find('Bluetooth') == -1): # dont add bluetooth port
+                    self.comboBoxPorts.addItem(p[0])
             self.pushButtonConnect.setEnabled(True)
         else:
             if (self.started):
@@ -69,6 +77,8 @@ class BafanConfig(Ui_MainWindow, QMainWindow):
             self.pushButtonConnect.setEnabled(False)
             self.statusbar.showMessage("connected to: " + self.comboBoxPorts.currentText())
             info_bytes = self.protocol.readinfo()
+            logger.debug("# write received info_bytes to logger")
+            logger.debug(info_bytes)
             self.bafang.set_info(info_bytes)
             self.update_info()
 
@@ -82,6 +92,10 @@ class BafanConfig(Ui_MainWindow, QMainWindow):
 
     def pushButtonRead_clicked(self):
         basic_bytes = self.protocol.readbasic()
+
+        # write received basic_bytes to logger
+        logger.debug("# write received basic_bytes to logger")
+        logger.debug(basic_bytes)
         self.bafang.set_basic(basic_bytes)
         self.update_basic()
             
@@ -90,6 +104,7 @@ class BafanConfig(Ui_MainWindow, QMainWindow):
         self.labelModel_2.setText(self.bafang.model)
         self.labelHardwVers_2.setText(str(self.bafang.hw_version))
         self.labelFirmVers_2.setText(str(self.bafang.fw_version))
+        self.labelNominalVoltage_2.setText(self.bafang.voltagestring)
         self.labelMaxCurrent_2.setText(str(self.bafang.max_current))
 
     def update_basic(self):
@@ -116,6 +131,7 @@ class BafanConfig(Ui_MainWindow, QMainWindow):
         self.spinBoxSpeedlimit8.setValue(self.bafang.limited_speed_assist8)
         self.spinBoxSpeedlimit9.setValue(self.bafang.limited_speed_assist9)
         self.spinBoxSpeedMeterSignals.setValue(self.bafang.speedmeter_signals)
+        self.comboBoxWheelDiameter.setCurrentIndex(self.bafang.wheel_diameter)
 
 
     def actionExitTriggered(self):

@@ -1,3 +1,6 @@
+import logging
+
+logger = logging.getLogger(__name__)
 
 class Bafang:
     """
@@ -78,7 +81,7 @@ class Bafang:
         self.limited_speed_assist7 = basic_bytes[21]
         self.limited_speed_assist8 = basic_bytes[22]
         self.limited_speed_assist9 = basic_bytes[23]
-        self.wheel_diameter = basic_bytes[24]
+        self.wheel_diameter = wheel_sizes[basic_bytes[24]]
         self.speedmeter_signals = basic_bytes[25]
         self.speedmeter_model = basic_bytes[25]
 
@@ -89,7 +92,15 @@ class Bafang:
 
     def set_pedal(self, pedal_data: bytes):
         """set the pedal parameters of bafang"""
-        print(pedal_data)
+        logger.debug("pedal data is:")
+        logger.debug(pedal_data)
+
+
+    def get_key(val): 
+        for key, value in voltages.items(): 
+            if val == value: 
+                return key
+        return "key doesn't exist"
 
 voltages = {
     0x00: '24V',
@@ -99,17 +110,18 @@ voltages = {
     0x04: 'Other'
     }
 
+
 wheel_sizes = {
-    0x1F: '16"',
-    0x20: '16"',
-    0x21: '17"',
-    0x22: '17"',
-    0x23: '18"',
-    0x24: '18"',
-    0x25: '19"',
-    0x26: '19"',
-    0x27: '20"',
-    0x28: '20"',
+    0x1F: 0,
+    0x20: 0,
+    0x21: 1,
+    0x22: 1,
+    0x23: 2,
+    0x24: 2,
+    0x25: 3,
+    0x26: 3,
+    0x27: 4,
+    0x28: 4,
     0x29: '21"',
     0x2A: '21"',
     0x2B: '22"',
@@ -120,8 +132,8 @@ wheel_sizes = {
     0x30: '24"',
     0x31: '25"',
     0x32: '25"',
-    0x33: '26"',
-    0x34: '26"',
+    0x33: 10,
+    0x34: 10,
     0x35: '27"',
     0x36: '27"',
     0x37: '700C',
@@ -131,3 +143,36 @@ wheel_sizes = {
     0x3B: '30"',
     0x3C: '30"',
 }
+
+# wheel_sizes = {
+#     0x1F: '16"',
+#     0x20: '16"',
+#     0x21: '17"',
+#     0x22: '17"',
+#     0x23: '18"',
+#     0x24: '18"',
+#     0x25: '19"',
+#     0x26: '19"',
+#     0x27: '20"',
+#     0x28: '20"',
+#     0x29: '21"',
+#     0x2A: '21"',
+#     0x2B: '22"',
+#     0x2C: '22"',
+#     0x2D: '23"',
+#     0x2E: '23"',
+#     0x2F: '24"',
+#     0x30: '24"',
+#     0x31: '25"',
+#     0x32: '25"',
+#     0x33: '26"',
+#     0x34: '26"',
+#     0x35: '27"',
+#     0x36: '27"',
+#     0x37: '700C',
+#     0x38: '28"',
+#     0x39: '29"',
+#     0x3A: '29"',
+#     0x3B: '30"',
+#     0x3C: '30"',
+# }
