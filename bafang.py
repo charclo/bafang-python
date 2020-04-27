@@ -85,7 +85,7 @@ class Bafang:
         self.speedmeter_signals = basic_bytes[25]
         self.speedmeter_model = basic_bytes[25]
 
-    def setbasicwithdict(self, basic_dict: dict):
+    def set_basic_with_dict(self, basic_dict: dict):
         """set the basic parameters of bafang from a dict """
         for attr, value in basic_dict.items():
             setattr(self, attr, value)

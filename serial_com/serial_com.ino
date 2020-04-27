@@ -8,13 +8,13 @@
 #define PEDAL 0x53
 #define THROTTLE 0x54
 
-#define COMMANDLENGTH 2
-#define INFOLENGTH 3
+#define COMMAND_LENGTH 2
+#define INFO_LENGTH 3
 
 typedef enum app_states
 {
-    READINGCOMMAND,
-    GETTINGDATA,
+    READ_COMMAND,
+    READ_DATA,
     OTHER    
 } State_t;
 
@@ -30,9 +30,6 @@ unsigned char basicMessage[27] = {0x52, 0x18, 0x1F, 0x0F, 0x00, 0x1C, 0x25, 0x2E
 unsigned char pedalMessage[14] = {0x53, 0x0B, 0x03, 0xFF, 0xFF, 0x64, 0x06, 0x14, 0x0A, 0x19, 0x08, 0x14, 0x14, 0x27};
 unsigned char databuffer[40];
 unsigned char commandbuffer[2];
-int i = 0;
-unsigned char received_char;
-bool getting_commands;
 
 /////////// FUNCTIONS ////////////////
 void get_data(){
@@ -40,9 +37,17 @@ void get_data(){
         switch (commandbuffer[1])
         {   
         case CONNECT:
-            read_bytes(INFOLENGTH);
-            printreceivedchar(databuffer);
+            read_bytes(INFO_LENGTH);
+            printreceivedchar(databuffer, INFO_LENGTH);
             Serial.write(infoMessage, 19);
+            break;
+        case BASIC:
+            Serial.write(basicMessage, 27);
+            state = READ_COMMAND;
+            break;
+        case PEDAL:
+            Serial.write(pedalMessage, 14);
+            state = READ_COMMAND;
             break;
         default:
             break;
@@ -54,29 +59,25 @@ void read_bytes(int length){
     if (Serial.available() > length - 1)
     {
         Serial.readBytes(databuffer, length);
-        state = READINGCOMMAND;
+        state = READ_COMMAND;
     }
 }
 
 void read_command(){
     if (Serial.available() > 1){
-        Serial.readBytes(commandbuffer, COMMANDLENGTH);
-        printreceivedchar(commandbuffer);
-        state = GETTINGDATA;
+        Serial.readBytes(commandbuffer, COMMAND_LENGTH);
+        printreceivedchar(commandbuffer, COMMAND_LENGTH);
+        state = READ_DATA;
     }
 }
 
-void printreceivedchar(unsigned char * buffer){
-    int bytes_written = lcd.write(*buffer);
-    lcd.print(" bytes written: ");
-    lcd.print(bytes_written);
-
-    // if (received_char<0x10)
-    // {
-    //     lcd.print("0");
-    // }
-    // lcd.print(received_char, HEX);
-    // lcd.print(" ");
+void printreceivedchar(unsigned char buffer[], int length){
+    for(int i = 0; i<length; i++){
+        if (buffer[i]<0x10)
+            lcd.print("0");
+        lcd.print(buffer[i], HEX);
+        lcd.print(" ");
+    }
 }
 
 void setup() {
@@ -84,73 +85,19 @@ void setup() {
     lcd.begin();
     lcd.backlight();
 
-    state = READINGCOMMAND;
+    state = READ_COMMAND;
 }
 
 void loop() {
     switch (state)
     {
-    case READINGCOMMAND:
+    case READ_COMMAND:
         read_command();
         break;
-    case GETTINGDATA:
+    case READ_DATA:
         get_data();
         break;
     default:
         break;
     }
-
-    // switch (received_char)
-    // {
-    //     case READ:
-    //     case WRITE:
-    //         buffer[i] = received_char;
-    //         i++;
-    //         break;
-    //     case CONNECT:
-    //         if (i>0)
-    //         {
-    //             if (buffer[i-1] == READ)
-    //             {
-    //                 Serial.write(infoMessage, 19);
-    //                 i = 0;
-    //                 // lcd.clear();
-    //             }
-    //         }
-    //         break;
-    //     case BASIC:
-    //         if (i>0)
-    //         {
-    //             if (buffer[i-1] == WRITE)
-    //             {
-    //                 // send back succes
-    //                 i = 0;
-    //             }
-    //             else if (buffer[i-1] == READ)
-    //             {
-    //                 Serial.write(basicMessage, 27);
-    //                 i = 0;
-    //                 getting_commands = false;
-    //                 // lcd.clear();
-    //             }
-    //         }
-    //         break;
-    //     case PEDAL:
-    //         if (i>0)
-    //         {
-    //             if (buffer[i-1] == WRITE)
-    //             {
-    //                 // send back succes
-    //                 i = 0;
-    //             }
-    //             else if (buffer[i-1] == READ)
-    //             {
-    //                 Serial.write(pedalMessage, 14);
-    //                 i = 0;
-    //             }
-    //         }
-    //         break;
-    //     default:
-    //         break;
-   // }
 }

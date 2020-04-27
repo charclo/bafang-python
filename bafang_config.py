@@ -135,13 +135,16 @@ class BafanConfig(Ui_MainWindow, QMainWindow):
 
 
     def actionExitTriggered(self):
+        if self.connected:
+            self.protocol.disconnect()
+        logger.debug("disconnected from serial port, exiting program")
         app.quit()
 
     def actionLoadTriggered(self):
         filename = self.openFileNameDialog()
         if filename:
             info, basic = json_file.read_json(filename)
-            self.bafang.setbasicwithdict(basic)
+            self.bafang.set_basic_with_dict(basic)
             self.update_basic()
 
     def actionSaveAsTriggered(self):

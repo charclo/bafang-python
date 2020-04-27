@@ -73,7 +73,7 @@ Baudrate: 1200,8,N,1
 * 22: Limit Speed (%) Assist8 (0x64 -> 100)
 * 23: Limit Speed (%) Assist9 (0x64 -> 100)
 * 24: Wheel Diameter (Inch) (0x34)
-    * 0x1F,0x20: 16"
+    * 0x1F,0x20: 16" // second value always used in bafang configuration tool
     * 0x21,0x22: 17"
     * 0x23,0x24: 18"
     * 0x25,0x26: 19"
@@ -84,7 +84,7 @@ Baudrate: 1200,8,N,1
     * 0x2F,0x30: 24"
     * 0x31,0x32: 25"
     * 0x33,0x34: 26"
-    * 0x35,0x36: 27"
+    * 0x35,0x36: 27" 
     * 0x37: 700C
     * 0x38: 28"
     * 0x39,0x3A: 29"
@@ -93,8 +93,8 @@ Baudrate: 1200,8,N,1
 	* Bits 1-2 (Model)
 		* 00: External
 		* 01: Internal
-		* 10: Motorphase
-	* Bits 3-6 (Speedmeter Signals)
+		* 11: Motorphase // was 10 
+	* Bits 3-8 (Speedmeter Signals) // was 3-6,  max in bafang tool is 36(dec) 
 * 26: Checksum? 0xDF
 
 ## Command: Read Pedal
@@ -155,7 +155,7 @@ Baudrate: 1200,8,N,1
 * 08: Checksum ? (0xAC)
 	
 ## Command: Set Basic
-* **Send:** 0x16 0x52 0x24 3..26 
+* **Send:** 0x16 0x52 0x18 3..26  // 0x18 was 0x24
 * **Response:** 0x52 0x24
 
 ### Response (description):
@@ -188,7 +188,7 @@ Baudrate: 1200,8,N,1
     * 0x18: Success 
 
 ## Command: Set Pedal
-* **Send:** 0x16 0x53 0x11 3..13 14(Checksum)
+* **Send:** 0x16 0x53 0x0B 3..13 14(Checksum) // 0x0B (length) was 0x11
 * **Response:** 0x53 0x24
 
 ### Response (description):
@@ -219,3 +219,7 @@ Baudrate: 1200,8,N,1
     * 0x16: Speedmeter Setting Error
     * 0x17: Speedmeter Signal Setting Error
     * 0x18: Success 
+
+## Command: Set Throttle
+* **Send:** 0x16 0x54 0x06 3..8  9(Checksum) // 0x06 is length
+* **Response:** 0x53 0x24
